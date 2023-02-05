@@ -2,9 +2,13 @@ import React from "react";
 import {useSelector} from 'react-redux'
 import {BiCommentDetail, BiSearch} from 'react-icons/bi';
 import {BsThreeDotsVertical} from 'react-icons/bs';
+import {useState} from 'react';
+import * as api from '../api/index.js'
 const Sidebar = () => {
     const {user} = useSelector(state => state.user)
-    console.log(user)
+    const {rooms,setRooms} = useState([]);
+
+    // console.log(user)
     const persons = [
         {
             name:"atakan",
@@ -43,6 +47,19 @@ const Sidebar = () => {
             date: "12-10-2023"
         },
     ]
+
+    const addPerson = async() => {
+        const newPrompt = prompt('isim giriniz')
+        if(newPrompt){
+            
+            const {data} = await api.createRoomApi({groupName: newPrompt})
+            console.log(data,"data")
+            console.log(newPrompt)
+            // setRooms(...rooms,)
+
+        }
+    }
+
     return (
         <div className="w-1/4 border-r">
             <div className="bg-gray-200 h-16 flex items-center justify-between p-3">
@@ -58,7 +75,7 @@ const Sidebar = () => {
                 <input className="outline-none border-none bg-transparent flex-1" type="text" placeholder="Arama"/>
                 </div>
             </div>
-            <div className="bg-green-600 text-white p-2 m-2 text-center rounded-lg cursor-pointer hover: opacity-90 transition-opacity">
+            <div onClick={addPerson} className="bg-green-600 text-white p-2 m-2 text-center rounded-lg cursor-pointer hover: opacity-90 transition-opacity">
                 yeni kişi ekle
             </div>
             <div>
